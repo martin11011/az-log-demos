@@ -21,4 +21,8 @@ using var host = builder.Build();
 
 var calculator = host.Services.GetRequiredService<Calculator>();
 
-await calculator.Add(1, 2);
+for (int i = 0; i < 10; i++)
+{
+    await calculator.Add(i, i + 1);
+    await Task.Delay(1000);
+}
