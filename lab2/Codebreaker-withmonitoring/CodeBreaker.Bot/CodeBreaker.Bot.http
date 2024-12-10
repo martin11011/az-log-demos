@@ -1,0 +1,7 @@
+﻿@CodeBreaker.Bot_HostAddress = http://localhost:5141
+
+POST {{CodeBreaker.Bot_HostAddress}}/bot/bots?count=30&thinkTime=3&delay=5
+
+
+
+###
