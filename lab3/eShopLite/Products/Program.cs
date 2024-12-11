@@ -7,6 +7,7 @@ builder.Services.AddDbContext<ProductDataContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("ProductsContext") ?? throw new InvalidOperationException("Connection string 'ProductsContext' not found.")));
 
 // Add observability code here
+builder.Services.AddObservability("Store", builder.Configuration);
 
 // Add services to the container.
 var app = builder.Build();
@@ -17,5 +18,7 @@ app.MapProductEndpoints();
 app.UseStaticFiles();
 
 app.CreateDbIfNotExists();
+
+app.MapObservability();
 
 app.Run();
