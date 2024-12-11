@@ -5,14 +5,24 @@ services:
     image: store:latest
     environment:
       - ProductEndpoint=http://backend:8080
+      - ZIPKIN_URL=http://zipkin:9411
+      - APPLICATIONINSIGHTS_CONNECTION_STRING=<InsightsConnectionString>
     ports:
       - "32000:8080"
     depends_on:
       - backend
+      - prometheus
+      - zipkin
+
   backend:
     image: products:latest
     ports:
       - "32001:8080"
+    depends_on:
+      - prometheus
+    environment:
+      - ZIPKIN_URL=http://zipkin:9411
+      - APPLICATIONINSIGHTS_CONNECTION_STRING=<InsightsConnectionString>
 
   prometheus:
     image: prom/prometheus
@@ -37,3 +47,7 @@ services:
     volumes:
       - ./grafana/datasource:/etc/grafana/provisioning/datasources
 
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - 9411:9411
